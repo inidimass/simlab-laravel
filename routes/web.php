@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Mahasiswa\PendaftaranController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,9 +28,15 @@ Route::middleware(['auth', 'role:dosen'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
-    Route::get('/mahasiswa/dashboard', function () {
-        return view('mahasiswa.dashboard');
-    })->name('mahasiswa.dashboard');
+
+    Route::get('/mahasiswa/dashboard', [DashboardController::class, 'mahasiswa'])
+        ->name('mahasiswa.dashboard');
+
+    Route::get('/mahasiswa/pendaftaran', [PendaftaranController::class, 'index'])
+        ->name('mahasiswa.pendaftaran');
+
+    Route::post('/mahasiswa/pendaftaran', [PendaftaranController::class, 'store'])
+        ->name('mahasiswa.pendaftaran.store');
 });
 
 /*
