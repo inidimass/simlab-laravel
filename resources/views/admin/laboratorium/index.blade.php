@@ -4,6 +4,12 @@
 
 <div class="bg-white rounded-lg shadow p-6">
 
+    @if(session('success'))
+        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-2xl font-bold text-gray-800">
@@ -14,7 +20,7 @@
             </p>
         </div>
 
-        <a href="#"
+        <a href="{{ route('laboratorium.create') }}"
            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
             + Tambah Laboratorium
         </a>
@@ -36,9 +42,9 @@
                 <tr>
 
                     <th class="px-4 py-3 border">No</th>
-                    <th class="px-4 py-3 border">Kode Laboratorium</th>
                     <th class="px-4 py-3 border">Nama Laboratorium</th>
                     <th class="px-4 py-3 border">Lokasi</th>
+                    <th class="px-4 py-3 border">Kapasitas</th>
                     <th class="px-4 py-3 border">Aksi</th>
 
                 </tr>
@@ -47,16 +53,75 @@
 
             <tbody>
 
-                <tr>
+                @forelse($laboratories as $laboratory)
 
-                    <td colspan="5"
-                        class="text-center py-10 text-gray-500">
+                    <tr>
 
-                        Belum ada data laboratorium.
+                        <td class="border px-4 py-3">
+                            {{ $loop->iteration }}
+                        </td>
 
-                    </td>
+                        <td class="border px-4 py-3">
+                            {{ $laboratory->nama }}
+                        </td>
 
-                </tr>
+                        <td class="border px-4 py-3">
+                            {{ $laboratory->lokasi }}
+                        </td>
+
+                        <td class="border px-4 py-3">
+                            {{ $laboratory->kapasitas }}
+                        </td>
+
+                        <td class="border px-4 py-3">
+
+                            <div class="flex gap-2">
+
+                                <a href="{{ route('laboratorium.show', $laboratory) }}"
+                                   class="bg-blue-500 hover:bg-blue-600 text-black px-3 py-1 rounded">
+                                    Detail
+                                </a>
+
+                                <a href="{{ route('laboratorium.edit', $laboratory) }}"
+                                   class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded">
+                                    Edit
+                                </a>
+
+                                <form action="{{ route('laboratorium.destroy', $laboratory) }}"
+                                      method="POST"
+                                      onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        type="submit"
+                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                                        Hapus
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td colspan="5"
+                            class="text-center py-10 text-gray-500">
+
+                            Belum ada data laboratorium.
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
 
             </tbody>
 

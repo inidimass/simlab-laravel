@@ -10,7 +10,7 @@
             Detail Laboratorium
         </h1>
 
-        <a href="#"
+        <a href="{{ route('laboratorium.index') }}"
            class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-lg">
             Kembali
         </a>
@@ -21,22 +21,12 @@
 
         <div>
             <label class="block mb-2 font-medium text-gray-700">
-                Kode Laboratorium
-            </label>
-
-            <input
-                type="text"
-                readonly
-                class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
-        </div>
-
-        <div>
-            <label class="block mb-2 font-medium text-gray-700">
                 Nama Laboratorium
             </label>
 
             <input
                 type="text"
+                value="{{ $laboratory->nama }}"
                 readonly
                 class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
         </div>
@@ -48,6 +38,19 @@
 
             <input
                 type="text"
+                value="{{ $laboratory->lokasi }}"
+                readonly
+                class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
+        </div>
+
+        <div>
+            <label class="block mb-2 font-medium text-gray-700">
+                Kapasitas
+            </label>
+
+            <input
+                type="text"
+                value="{{ $laboratory->kapasitas }}"
                 readonly
                 class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
         </div>

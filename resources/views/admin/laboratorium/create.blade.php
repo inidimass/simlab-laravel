@@ -8,21 +8,11 @@
         Tambah Laboratorium
     </h1>
 
-    <form action="#" method="POST">
+    <form action="{{ route('laboratorium.store') }}" method="POST">
 
         @csrf
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-            <div>
-                <label class="block mb-2 font-medium text-gray-700">
-                    Kode Laboratorium
-                </label>
-
-                <input
-                    type="text"
-                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            </div>
 
             <div>
                 <label class="block mb-2 font-medium text-gray-700">
@@ -31,7 +21,13 @@
 
                 <input
                     type="text"
+                    name="nama"
+                    value="{{ old('nama') }}"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+
+                @error('nama')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
             </div>
 
             <div>
@@ -41,7 +37,29 @@
 
                 <input
                     type="text"
+                    name="lokasi"
+                    value="{{ old('lokasi') }}"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+
+                @error('lokasi')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block mb-2 font-medium text-gray-700">
+                    Kapasitas
+                </label>
+
+                <input
+                    type="number"
+                    name="kapasitas"
+                    value="{{ old('kapasitas') }}"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+
+                @error('kapasitas')
+                    <small class="text-red-500">{{ $message }}</small>
+                @enderror
             </div>
 
         </div>
@@ -57,7 +75,7 @@
             </button>
 
             <a
-                href="#"
+                href="{{ route('laboratorium.index') }}"
                 class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-lg">
 
                 Kembali

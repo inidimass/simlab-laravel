@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Admin\MahasiswaController;
 use App\Http\Controllers\Admin\DosenController;
+use App\Http\Controllers\Admin\MataKuliahController;
+use App\Http\Controllers\Admin\PraktikumController;
+use App\Http\Controllers\Admin\LaboratoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,13 +28,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::resource('/admin/dosen', DosenController::class);
 
+    Route::resource('admin/mata-kuliah', MataKuliahController::class);
+
+    Route::resource('admin/praktikum', PraktikumController::class)
+    ->names('praktikum');
+
+    Route::resource('admin/laboratorium', LaboratoryController::class);
 
 
-    Route::view('/admin/mata-kuliah', 'admin.mata_kuliah.index');
-
-    Route::view('/admin/praktikum', 'admin.praktikum.index');
-
-    Route::view('/admin/laboratorium', 'admin.laboratorium.index');
+    
 
     Route::view('/admin/komputer', 'admin.komputer.index');
 

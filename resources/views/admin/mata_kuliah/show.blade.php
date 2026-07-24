@@ -10,7 +10,7 @@
             Detail Mata Kuliah
         </h1>
 
-        <a href="#"
+        <a href="{{ route('mata-kuliah.index') }}"
            class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-lg">
             Kembali
         </a>
@@ -26,7 +26,7 @@
 
             <input
                 type="text"
-                value="220101001"
+                value="{{ $mataKuliah->kode }}"
                 readonly
                 class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
         </div>
@@ -38,7 +38,19 @@
 
             <input
                 type="text"
-                value="Ferry"
+                value="{{ $mataKuliah->nama }}"
+                readonly
+                class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
+        </div>
+
+        <div>
+            <label class="block mb-2 font-medium text-gray-700">
+                Semester
+            </label>
+
+            <input
+                type="number"
+                value="{{ $mataKuliah->semester }}"
                 readonly
                 class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
         </div>
@@ -49,8 +61,8 @@
             </label>
 
             <input
-                type="text"
-                value="Teknik Informatika"
+                type="number"
+                value="{{ $mataKuliah->sks }}"
                 readonly
                 class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
         </div>

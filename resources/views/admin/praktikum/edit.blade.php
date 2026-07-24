@@ -8,44 +8,65 @@
         Edit Praktikum
     </h1>
 
-    <form action="#" method="POST">
+    <form action="{{ route('praktikum.update', $praktikum) }}" method="POST">
 
         @csrf
         @method('PUT')
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
+            {{-- Mata Kuliah --}}
             <div>
                 <label class="block mb-2 font-medium text-gray-700">
-                    Kode Praktikum
+                    Mata Kuliah
                 </label>
 
-                <input
-                    type="text"
-                    name="kode_praktikum"
+                <select
+                    name="mata_kuliah_id"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+
+                    @foreach($mataKuliahs as $mk)
+                        <option value="{{ $mk->id }}"
+                            {{ $praktikum->mata_kuliah_id == $mk->id ? 'selected' : '' }}>
+                            {{ $mk->kode }} - {{ $mk->nama }}
+                        </option>
+                    @endforeach
+
+                </select>
             </div>
 
-            <div>
-                <label class="block mb-2 font-medium text-gray-700">
-                    Nama Praktikum
-                </label>
-
-                <input
-                    type="text"
-                    name="nama_praktikum"
-                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            </div>
-
+            {{-- Biaya --}}
             <div>
                 <label class="block mb-2 font-medium text-gray-700">
                     Biaya Praktikum
                 </label>
 
                 <input
-                    type="text"
-                    name="biaya_praktikum"
+                    type="number"
+                    name="biaya"
+                    value="{{ $praktikum->biaya }}"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+            </div>
+
+            {{-- Status --}}
+            <div>
+                <label class="block mb-2 font-medium text-gray-700">
+                    Status
+                </label>
+
+                <select
+                    name="status"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+
+                    <option value="1" {{ $praktikum->status ? 'selected' : '' }}>
+                        Aktif
+                    </option>
+
+                    <option value="0" {{ !$praktikum->status ? 'selected' : '' }}>
+                        Tidak Aktif
+                    </option>
+
+                </select>
             </div>
 
         </div>
@@ -61,7 +82,7 @@
             </button>
 
             <a
-                href="#"
+                href="{{ route('praktikum.index') }}"
                 class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-lg">
 
                 Kembali
