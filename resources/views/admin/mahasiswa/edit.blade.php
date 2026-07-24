@@ -8,7 +8,7 @@
         Edit Mahasiswa
     </h1>
 
-    <form action="#" method="POST">
+    <form action="{{ route('mahasiswa.update', $mahasiswa->id) }}" method="POST">
 
         @csrf
         @method('PUT')
@@ -23,44 +23,67 @@
                 <input
                     type="text"
                     name="nim"
-                    value="220101001"
+                    value="{{ $mahasiswa->nim }}"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
             </div>
 
             <div>
                 <label class="block mb-2 font-medium text-gray-700">
-                    Nama Mahasiswa
+                    Nama 
                 </label>
 
                 <input
                     type="text"
                     name="nama"
-                    value="ferry"
+                    value="{{ $mahasiswa->nama }}"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
             </div>
 
             <div>
                 <label class="block mb-2 font-medium text-gray-700">
-                    Program Studi
+                    Prodi
                 </label>
 
                 <input
                     type="text"
-                    name="program_studi"
-                    value="teknik_informatika"
+                    name="prodi"
+                    value="{{ $mahasiswa->prodi }}"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
             </div>
 
             <div>
                 <label class="block mb-2 font-medium text-gray-700">
-                    Semester
+                    Angkatan
                 </label>
 
                 <input
                     type="number"
-                    name="semester"
-                    value="6"
+                    name="angkatan"
+                    value="{{ $mahasiswa->angkatan }}"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+            </div>
+
+            <div>
+                <label class="block mb-2 font-medium text-gray-700">
+                    No HP
+                </label>
+
+                <input
+                    type="text"
+                    name="no_hp"
+                    value="{{ $mahasiswa->no_hp }}"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+            </div>
+
+            <div>
+                <label class="block mb-2 font-medium text-gray-700">
+                    Alamat
+                </label>
+
+                <textarea
+                    name="alamat"
+                    rows="4"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">{{ $mahasiswa->alamat }}</textarea>
             </div>
 
         </div>
@@ -76,7 +99,7 @@
             </button>
 
             <a
-                href="#"
+                href="{{ route('mahasiswa.index') }}"
                 class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-lg">
 
                 Kembali

@@ -3,12 +3,22 @@
 @section('content')
 
 <div class="bg-white rounded-lg shadow p-6">
+    
+    @if ($errors->any())
+        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+            <ul class="list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        /div>
+    @endif
 
     <h1 class="text-2xl font-bold text-gray-800 mb-6">
         Edit Dosen
     </h1>
 
-    <form action="#" method="POST">
+    <form action="{{ route('dosen.update', $dosen->id) }}" method="POST">
 
         @csrf
         @method('PUT')
@@ -17,13 +27,13 @@
 
             <div>
                 <label class="block mb-2 font-medium text-gray-700">
-                    NIDN
+                    NIP
                 </label>
 
                 <input
                     type="text"
-                    name="nim"
-                    value="220101001"
+                    name="nip"
+                    value="{{ old('nip', $dosen->nip) }}"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
             </div>
 
@@ -35,31 +45,19 @@
                 <input
                     type="text"
                     name="nama"
-                    value="ferry"
+                    value="{{ old('nip', $dosen->nama) }}"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
             </div>
 
             <div>
                 <label class="block mb-2 font-medium text-gray-700">
-                    Email
-                </label>
-
-                <input
-                    type="text"
-                    name="program_studi"
-                    value="teknik_informatika"
-                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            </div>
-
-            <div>
-                <label class="block mb-2 font-medium text-gray-700">
-                    Nomor Telepon
+                    No HP
                 </label>
 
                 <input
                     type="number"
-                    name="semester"
-                    value="6"
+                    name="no_hp"
+                    value="{{ old('nip', $dosen->no_hp) }}"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
             </div>
 
@@ -76,7 +74,7 @@
             </button>
 
             <a
-                href="#"
+                href="{{ route('dosen.index') }}"
                 class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-lg">
 
                 Kembali

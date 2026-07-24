@@ -10,7 +10,7 @@
             Detail Mahasiswa
         </h1>
 
-        <a href="#"
+        <a href="{{ route('mahasiswa.index') }}"
            class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-lg">
             Kembali
         </a>
@@ -26,45 +26,68 @@
 
             <input
                 type="text"
-                value="220101001"
+                value="{{ $mahasiswa->nim }}"
                 readonly
                 class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
         </div>
 
         <div>
             <label class="block mb-2 font-medium text-gray-700">
-                Nama Mahasiswa
+                Nama 
             </label>
 
             <input
                 type="text"
-                value="Ferry"
+                value="{{ $mahasiswa->nama }}"
                 readonly
                 class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
         </div>
 
         <div>
             <label class="block mb-2 font-medium text-gray-700">
-                Program Studi
+                Prodi
             </label>
 
             <input
                 type="text"
-                value="Teknik Informatika"
+                value="{{ $mahasiswa->prodi }}"
                 readonly
                 class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
         </div>
 
         <div>
             <label class="block mb-2 font-medium text-gray-700">
-                Semester
+                Angkatan
             </label>
 
             <input
                 type="text"
-                value="6"
+                value="{{ $mahasiswa->angkatan }}"
                 readonly
                 class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
+        </div>
+
+        <div>
+            <label class="block mb-2 font-medium text-gray-700">
+                No HP
+            </label>
+
+            <input
+                type="text"
+                value="{{ $mahasiswa->no_hp }}"
+                readonly
+                class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">
+        </div>
+
+        <div>
+            <label class="block mb-2 font-medium text-gray-700">
+                Alamat
+            </label>
+
+            <textarea
+                readonly
+                rows="4"
+                class="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-700">{{ $mahasiswa->alamat }}</textarea>
         </div>
 
     </div>
