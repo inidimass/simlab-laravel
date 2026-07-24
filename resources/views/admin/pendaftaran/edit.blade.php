@@ -6,10 +6,10 @@
 
     <div class="mb-6">
         <h1 class="text-2xl font-bold text-gray-800">
-            Tambah Komputer
+            Edit Pendaftaran
         </h1>
         <p class="text-gray-500 text-sm">
-            Tambahkan data komputer baru.
+            Perbarui data pendaftaran mahasiswa.
         </p>
     </div>
 
@@ -23,52 +23,48 @@
         </div>
     @endif
 
-    <form action="{{ route('komputer.store') }}" method="POST">
+    <form action="{{ route('pendaftaran.update', $pendaftaran) }}" method="POST">
         @csrf
+        @method('PUT')
 
         <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-2">Laboratorium</label>
-            <select name="laboratory_id"
+            <label class="block text-gray-700 font-medium mb-2">Mahasiswa</label>
+            <select name="mahasiswa_id"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                <option value="">-- Pilih Laboratorium --</option>
-                @foreach($laboratories as $laboratory)
-                    <option value="{{ $laboratory->id }}"
-                        {{ old('laboratory_id') == $laboratory->id ? 'selected' : '' }}>
-                        {{ $laboratory->nama }}
+                <option value="">-- Pilih Mahasiswa --</option>
+                @foreach($mahasiswas as $mahasiswa)
+                    <option value="{{ $mahasiswa->id }}"
+                        {{ old('mahasiswa_id', $pendaftaran->mahasiswa_id) == $mahasiswa->id ? 'selected' : '' }}>
+                        {{ $mahasiswa->nama }}
                     </option>
                 @endforeach
             </select>
         </div>
 
         <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-2">Kode PC</label>
-            <input type="text" name="kode_pc" value="{{ old('kode_pc') }}"
+            <label class="block text-gray-700 font-medium mb-2">Tanggal Daftar</label>
+            <input type="date" name="tanggal_daftar"
+                   value="{{ old('tanggal_daftar', \Carbon\Carbon::parse($pendaftaran->tanggal_daftar)->format('Y-m-d')) }}"
                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-        </div>
-
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-2">Spesifikasi</label>
-            <textarea name="spesifikasi" rows="4"
-                      class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">{{ old('spesifikasi') }}</textarea>
         </div>
 
         <div class="mb-6">
             <label class="block text-gray-700 font-medium mb-2">Status</label>
             <select name="status"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                <option value="aktif" {{ old('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
-                <option value="rusak" {{ old('status') == 'rusak' ? 'selected' : '' }}>Rusak</option>
-                <option value="maintenance" {{ old('status') == 'maintenance' ? 'selected' : '' }}>Maintenance</option>
+                <option value="Belum Bayar" {{ old('status', $pendaftaran->status) == 'Belum Bayar' ? 'selected' : '' }}>Belum Bayar</option>
+                <option value="Menunggu Verifikasi" {{ old('status', $pendaftaran->status) == 'Menunggu Verifikasi' ? 'selected' : '' }}>Menunggu Verifikasi</option>
+                <option value="Lunas" {{ old('status', $pendaftaran->status) == 'Lunas' ? 'selected' : '' }}>Lunas</option>
             </select>
         </div>
 
         <div class="flex gap-2">
             <button type="submit"
                     class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
-                Simpan
+                Perbarui
             </button>
 
-            <a href="{{ route('komputer.index') }}"
+            <a href="{{ route('pendaftaran.index') }}"
                class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg">
                 Batal
             </a>

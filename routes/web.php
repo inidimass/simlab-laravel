@@ -5,6 +5,13 @@ use App\Http\Controllers\Admin\DosenController;
 use App\Http\Controllers\Admin\MataKuliahController;
 use App\Http\Controllers\Admin\PraktikumController;
 use App\Http\Controllers\Admin\LaboratoryController;
+use App\Http\Controllers\Admin\ComputerController;
+use App\Http\Controllers\Admin\KelasPraktikumController;
+use App\Http\Controllers\Admin\JadwalController;
+use App\Http\Controllers\Admin\PendaftaranController;
+use App\Http\Controllers\Admin\DetailPendaftaranController;
+use App\Http\Controllers\Admin\PembayaranController;
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,14 +42,24 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::resource('admin/laboratorium', LaboratoryController::class);
 
+    Route::resource('admin/komputer', ComputerController::class)
+    ->names('komputer');
 
-    
+    Route::resource('admin/kelas-praktikum', KelasPraktikumController::class)
+    ->names('kelas_praktikum');
 
-    Route::view('/admin/komputer', 'admin.komputer.index');
+    Route::resource('admin/jadwal', JadwalController::class)
+    ->names('jadwal');
 
-    Route::view('/admin/kelas-praktikum', 'admin.kelas_praktikum.index');
+    Route::resource('admin/pendaftaran', PendaftaranController::class)
+    ->names('pendaftaran');
 
-    Route::view('/admin/jadwal', 'admin.jadwal.index');
+    Route::resource('admin/detail-pendaftaran', DetailPendaftaranController::class)
+    ->names('detail_pendaftaran');
+
+    Route::resource('admin/pembayaran', PembayaranController::class)
+    ->names('pembayaran');
+
 });
 
 Route::middleware(['auth', 'role:dosen'])->group(function () {

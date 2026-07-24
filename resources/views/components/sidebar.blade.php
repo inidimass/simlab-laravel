@@ -44,6 +44,18 @@
             Jadwal
         </a>
 
+        <a href="{{ url('/admin/pendaftaran') }}" class="block px-6 py-3 text-gray-700 hover:bg-blue-100 hover:text-blue-600 transition">
+            Pendaftaran
+        </a>
+
+        <a href="{{ url('/admin/detail-pendaftaran') }}" class="block px-6 py-3 text-gray-700 hover:bg-blue-100 hover:text-blue-600 transition">
+            Detail Pendaftaran
+        </a>
+
+        <a href="{{ url('/admin/pembayaran') }}" class="block px-6 py-3 text-gray-700 hover:bg-blue-100 hover:text-blue-600 transition">
+            Pembayaran
+        </a>
+
     </nav>
 
 </aside>

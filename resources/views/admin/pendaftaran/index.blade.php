@@ -13,23 +13,23 @@
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-2xl font-bold text-gray-800">
-                Data Komputer
+                Data Pendaftaran
             </h1>
             <p class="text-gray-500 text-sm">
-                Kelola seluruh data komputer laboratorium.
+                Kelola seluruh data pendaftaran mahasiswa.
             </p>
         </div>
 
-        <a href="{{ route('komputer.create') }}"
+        <a href="{{ route('pendaftaran.create') }}"
            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
-            + Tambah Komputer
+            + Tambah Pendaftaran
         </a>
     </div>
 
     <div class="mb-6">
         <input
             type="text"
-            placeholder="Cari komputer..."
+            placeholder="Cari pendaftaran..."
             class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
     </div>
 
@@ -42,9 +42,8 @@
                 <tr>
 
                     <th class="px-4 py-3 border">No</th>
-                    <th class="px-4 py-3 border">Kode PC</th>
-                    <th class="px-4 py-3 border">Laboratorium</th>
-                    <th class="px-4 py-3 border">Spesifikasi</th>
+                    <th class="px-4 py-3 border">Mahasiswa</th>
+                    <th class="px-4 py-3 border">Tanggal Daftar</th>
                     <th class="px-4 py-3 border">Status</th>
                     <th class="px-4 py-3 border">Aksi</th>
 
@@ -54,7 +53,7 @@
 
             <tbody>
 
-                @forelse($computers as $computer)
+                @forelse($pendaftarans as $pendaftaran)
 
                     <tr>
 
@@ -63,25 +62,21 @@
                         </td>
 
                         <td class="border px-4 py-3">
-                            {{ $computer->kode_pc }}
+                            {{ $pendaftaran->mahasiswa->nama ?? '-' }}
                         </td>
 
                         <td class="border px-4 py-3">
-                            {{ $computer->laboratory->nama ?? '-' }}
-                        </td>
-
-                        <td class="border px-4 py-3">
-                            {{ Str::limit($computer->spesifikasi, 40) }}
+                            {{ \Carbon\Carbon::parse($pendaftaran->tanggal_daftar)->format('d-m-Y') }}
                         </td>
 
                         <td class="border px-4 py-3">
 
-                            @if($computer->status === 'aktif')
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm">Aktif</span>
-                            @elseif($computer->status === 'rusak')
-                                <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-sm">Rusak</span>
+                            @if($pendaftaran->status === 'Lunas')
+                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm">Lunas</span>
+                            @elseif($pendaftaran->status === 'Menunggu Verifikasi')
+                                <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm">Menunggu Verifikasi</span>
                             @else
-                                <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm">Maintenance</span>
+                                <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-sm">Belum Bayar</span>
                             @endif
 
                         </td>
@@ -90,17 +85,17 @@
 
                             <div class="flex gap-2">
 
-                                <a href="{{ route('komputer.show', $computer) }}"
+                                <a href="{{ route('pendaftaran.show', $pendaftaran) }}"
                                    class="bg-blue-500 hover:bg-blue-600 text-black px-3 py-1 rounded">
                                     Detail
                                 </a>
 
-                                <a href="{{ route('komputer.edit', $computer) }}"
+                                <a href="{{ route('pendaftaran.edit', $pendaftaran) }}"
                                    class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded">
                                     Edit
                                 </a>
 
-                                <form action="{{ route('komputer.destroy', $computer) }}"
+                                <form action="{{ route('pendaftaran.destroy', $pendaftaran) }}"
                                       method="POST"
                                       onsubmit="return confirm('Yakin ingin menghapus data ini?')">
 
@@ -125,10 +120,10 @@
 
                     <tr>
 
-                        <td colspan="6"
+                        <td colspan="5"
                             class="text-center py-10 text-gray-500">
 
-                            Belum ada data komputer.
+                            Belum ada data pendaftaran.
 
                         </td>
 

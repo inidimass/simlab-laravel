@@ -4,76 +4,77 @@
 
 <div class="bg-white rounded-lg shadow p-6">
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">
-        Tambah Jadwal
-    </h1>
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">
+            Tambah Jadwal
+        </h1>
+        <p class="text-gray-500 text-sm">
+            Tambahkan data jadwal praktikum baru.
+        </p>
+    </div>
 
-    <form action="#" method="POST">
+    @if($errors->any())
+        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+            <ul class="list-disc list-inside">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
+    <form action="{{ route('jadwal.store') }}" method="POST">
         @csrf
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-            <div>
-                <label class="block mb-2 font-medium text-gray-700">
-                    Hari
-                </label>
-
-                <input
-                    type="text"
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Kelas Praktikum</label>
+            <select name="kelas_praktikum_id"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            </div>
-
-            <div>
-                <label class="block mb-2 font-medium text-gray-700">
-                    Jam
-                </label>
-
-                <input
-                    type="text"
-                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            </div>
-
-            <div>
-                <label class="block mb-2 font-medium text-gray-700">
-                    Kelas Praktikum
-                </label>
-
-                <input
-                    type="text"
-                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            </div>
-
-            <div>
-                <label class="block mb-2 font-medium text-gray-700">
-                    Laboratorium
-                </label>
-
-                <input
-                    type="text"
-                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            </div>
-
+                <option value="">-- Pilih Kelas Praktikum --</option>
+                @foreach($kelasPraktikums as $kelasPraktikum)
+                    <option value="{{ $kelasPraktikum->id }}"
+                        {{ old('kelas_praktikum_id') == $kelasPraktikum->id ? 'selected' : '' }}>
+                        {{ $kelasPraktikum->nama_kelas }} — {{ $kelasPraktikum->praktikum->mataKuliah->nama ?? '-' }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
-        <div class="mt-8 flex gap-3">
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Hari</label>
+            <select name="hari"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                <option value="">-- Pilih Hari --</option>
+                @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as $hari)
+                    <option value="{{ $hari }}" {{ old('hari') == $hari ? 'selected' : '' }}>
+                        {{ $hari }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-            <button
-                type="submit"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Jam Mulai</label>
+            <input type="time" name="jam_mulai" value="{{ old('jam_mulai') }}"
+                   class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+        </div>
 
+        <div class="mb-6">
+            <label class="block text-gray-700 font-medium mb-2">Jam Selesai</label>
+            <input type="time" name="jam_selesai" value="{{ old('jam_selesai') }}"
+                   class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
                 Simpan
-
             </button>
 
-            <a
-                href="#"
-                class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-lg">
-
-                Kembali
-
+            <a href="{{ route('jadwal.index') }}"
+               class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg">
+                Batal
             </a>
-
         </div>
 
     </form>

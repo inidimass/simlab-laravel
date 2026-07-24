@@ -4,6 +4,12 @@
 
 <div class="bg-white rounded-lg shadow p-6">
 
+    @if(session('success'))
+        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-2xl font-bold text-gray-800">
@@ -14,7 +20,7 @@
             </p>
         </div>
 
-        <a href="#"
+        <a href="{{ route('jadwal.create') }}"
            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
             + Tambah Jadwal
         </a>
@@ -36,10 +42,11 @@
                 <tr>
 
                     <th class="px-4 py-3 border">No</th>
-                    <th class="px-4 py-3 border">Hari </th>
-                    <th class="px-4 py-3 border">Jam</th>
                     <th class="px-4 py-3 border">Kelas Praktikum</th>
-                    <th class="px-4 py-3 border">Laboratorium</th>
+                    <th class="px-4 py-3 border">Mata Kuliah</th>
+                    <th class="px-4 py-3 border">Dosen</th>
+                    <th class="px-4 py-3 border">Hari</th>
+                    <th class="px-4 py-3 border">Jam</th>
                     <th class="px-4 py-3 border">Aksi</th>
 
                 </tr>
@@ -48,16 +55,85 @@
 
             <tbody>
 
-                <tr>
+                @forelse($jadwals as $jadwal)
 
-                    <td colspan="5"
-                        class="text-center py-10 text-gray-500">
+                    <tr>
 
-                        Belum ada data jadwal.
+                        <td class="border px-4 py-3">
+                            {{ $loop->iteration }}
+                        </td>
 
-                    </td>
+                        <td class="border px-4 py-3">
+                            {{ $jadwal->kelasPraktikum->nama_kelas ?? '-' }}
+                        </td>
 
-                </tr>
+                        <td class="border px-4 py-3">
+                            {{ $jadwal->kelasPraktikum->praktikum->mataKuliah->nama ?? '-' }}
+                        </td>
+
+                        <td class="border px-4 py-3">
+                            {{ $jadwal->kelasPraktikum->dosen->nama ?? '-' }}
+                        </td>
+
+                        <td class="border px-4 py-3">
+                            {{ $jadwal->hari }}
+                        </td>
+
+                        <td class="border px-4 py-3">
+                            {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }}
+                            -
+                            {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }}
+                        </td>
+
+                        <td class="border px-4 py-3">
+
+                            <div class="flex gap-2">
+
+                                <a href="{{ route('jadwal.show', $jadwal) }}"
+                                   class="bg-blue-500 hover:bg-blue-600 text-black px-3 py-1 rounded">
+                                    Detail
+                                </a>
+
+                                <a href="{{ route('jadwal.edit', $jadwal) }}"
+                                   class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded">
+                                    Edit
+                                </a>
+
+                                <form action="{{ route('jadwal.destroy', $jadwal) }}"
+                                      method="POST"
+                                      onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        type="submit"
+                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                                        Hapus
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td colspan="7"
+                            class="text-center py-10 text-gray-500">
+
+                            Belum ada data jadwal.
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
 
             </tbody>
 

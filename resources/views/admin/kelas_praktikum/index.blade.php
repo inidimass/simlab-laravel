@@ -4,6 +4,12 @@
 
 <div class="bg-white rounded-lg shadow p-6">
 
+    @if(session('success'))
+        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-2xl font-bold text-gray-800">
@@ -14,7 +20,7 @@
             </p>
         </div>
 
-        <a href="#"
+        <a href="{{ route('kelas_praktikum.create') }}"
            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
             + Tambah Kelas Praktikum
         </a>
@@ -36,8 +42,10 @@
                 <tr>
 
                     <th class="px-4 py-3 border">No</th>
-                    <th class="px-4 py-3 border">Kode Kelas Praktikum</th>
-                    <th class="px-4 py-3 border">Nama Kelas Praktikum</th>
+                    <th class="px-4 py-3 border">Nama Kelas</th>
+                    <th class="px-4 py-3 border">Praktikum</th>
+                    <th class="px-4 py-3 border">Dosen</th>
+                    <th class="px-4 py-3 border">Laboratorium</th>
                     <th class="px-4 py-3 border">Kuota</th>
                     <th class="px-4 py-3 border">Aksi</th>
 
@@ -47,16 +55,83 @@
 
             <tbody>
 
-                <tr>
+                @forelse($kelasPraktikums as $kelasPraktikum)
 
-                    <td colspan="5"
-                        class="text-center py-10 text-gray-500">
+                    <tr>
 
-                        Belum ada data kelas praktikum.
+                        <td class="border px-4 py-3">
+                            {{ $loop->iteration }}
+                        </td>
 
-                    </td>
+                        <td class="border px-4 py-3">
+                            {{ $kelasPraktikum->nama_kelas }}
+                        </td>
 
-                </tr>
+                        <td class="border px-4 py-3">
+                            {{ $kelasPraktikum->praktikum->mataKuliah->nama ?? '-' }}
+                        </td>
+
+                        <td class="border px-4 py-3">
+                            {{ $kelasPraktikum->dosen->nama ?? '-' }}
+                        </td>
+
+                        <td class="border px-4 py-3">
+                            {{ $kelasPraktikum->laboratory->nama ?? '-' }}
+                        </td>
+
+                        <td class="border px-4 py-3">
+                            {{ $kelasPraktikum->kuota_terisi }} / {{ $kelasPraktikum->kuota }}
+                        </td>
+
+                        <td class="border px-4 py-3">
+
+                            <div class="flex gap-2">
+
+                                <a href="{{ route('kelas_praktikum.show', $kelasPraktikum) }}"
+                                   class="bg-blue-500 hover:bg-blue-600 text-black px-3 py-1 rounded">
+                                    Detail
+                                </a>
+
+                                <a href="{{ route('kelas_praktikum.edit', $kelasPraktikum) }}"
+                                   class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded">
+                                    Edit
+                                </a>
+
+                                <form action="{{ route('kelas_praktikum.destroy', $kelasPraktikum) }}"
+                                      method="POST"
+                                      onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        type="submit"
+                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                                        Hapus
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td colspan="7"
+                            class="text-center py-10 text-gray-500">
+
+                            Belum ada data kelas praktikum.
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
 
             </tbody>
 

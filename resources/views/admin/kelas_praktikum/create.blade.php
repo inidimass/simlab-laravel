@@ -4,66 +4,92 @@
 
 <div class="bg-white rounded-lg shadow p-6">
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">
-        Tambah Kelas Praktikum
-    </h1>
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">
+            Tambah Kelas Praktikum
+        </h1>
+        <p class="text-gray-500 text-sm">
+            Tambahkan data kelas praktikum baru.
+        </p>
+    </div>
 
-    <form action="#" method="POST">
+    @if($errors->any())
+        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+            <ul class="list-disc list-inside">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
+    <form action="{{ route('kelas_praktikum.store') }}" method="POST">
         @csrf
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-            <div>
-                <label class="block mb-2 font-medium text-gray-700">
-                    Kode Kelas 
-                </label>
-
-                <input
-                    type="text"
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Praktikum</label>
+            <select name="praktikum_id"
                     class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            </div>
-
-            <div>
-                <label class="block mb-2 font-medium text-gray-700">
-                    Nama Kelas
-                </label>
-
-                <input
-                    type="text"
-                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            </div>
-
-            <div>
-                <label class="block mb-2 font-medium text-gray-700">
-                    Kuota
-                </label>
-
-                <input
-                    type="text"
-                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            </div>
-
+                <option value="">-- Pilih Praktikum --</option>
+                @foreach($praktikums as $praktikum)
+                    <option value="{{ $praktikum->id }}"
+                        {{ old('praktikum_id') == $praktikum->id ? 'selected' : '' }}>
+                        {{ $praktikum->mataKuliah->nama ?? '-' }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
-        <div class="mt-8 flex gap-3">
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Dosen</label>
+            <select name="dosen_id"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                <option value="">-- Pilih Dosen --</option>
+                @foreach($dosens as $dosen)
+                    <option value="{{ $dosen->id }}"
+                        {{ old('dosen_id') == $dosen->id ? 'selected' : '' }}>
+                        {{ $dosen->nama }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-            <button
-                type="submit"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Laboratorium</label>
+            <select name="laboratory_id"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                <option value="">-- Pilih Laboratorium --</option>
+                @foreach($laboratories as $laboratory)
+                    <option value="{{ $laboratory->id }}"
+                        {{ old('laboratory_id') == $laboratory->id ? 'selected' : '' }}>
+                        {{ $laboratory->nama }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Nama Kelas</label>
+            <input type="text" name="nama_kelas" value="{{ old('nama_kelas') }}"
+                   class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-gray-700 font-medium mb-2">Kuota</label>
+            <input type="number" name="kuota" value="{{ old('kuota') }}" min="1"
+                   class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
                 Simpan
-
             </button>
 
-            <a
-                href="#"
-                class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-lg">
-
-                Kembali
-
+            <a href="{{ route('kelas_praktikum.index') }}"
+               class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg">
+                Batal
             </a>
-
         </div>
 
     </form>
