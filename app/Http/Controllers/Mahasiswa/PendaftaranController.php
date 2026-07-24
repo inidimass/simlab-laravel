@@ -14,6 +14,20 @@ class PendaftaranController extends Controller
 {
     public function index()
     {
+        $mahasiswa = Mahasiswa::where('user_id', Auth::id())->first();
+
+        if (
+            ! $mahasiswa ||
+            empty($mahasiswa->nim) ||
+            $mahasiswa->prodi == '-' ||
+            $mahasiswa->no_hp == '-' ||
+            empty($mahasiswa->alamat)
+        ) {
+            return redirect()
+                ->route('mahasiswa.profile')
+                ->with('error', 'Lengkapi biodata terlebih dahulu.');
+        }
+
         $kelas = KelasPraktikum::with('praktikum.mataKuliah')->get();
 
         return view('mahasiswa.pendaftaran.index', compact('kelas'));
@@ -26,6 +40,19 @@ class PendaftaranController extends Controller
         ]);
 
         $mahasiswa = Mahasiswa::where('user_id', Auth::id())->first();
+
+        if (
+            ! $mahasiswa ||
+            empty($mahasiswa->nim) ||
+            $mahasiswa->prodi == '-' ||
+            $mahasiswa->no_hp == '-' ||
+            empty($mahasiswa->alamat)
+        ) {
+            return redirect()
+                ->route('mahasiswa.profile')
+                ->with('error', 'Lengkapi biodata terlebih dahulu.');
+        }
+
         $cek = Pendaftaran::where('mahasiswa_id', $mahasiswa->id)->exists();
 
         if ($cek) {

@@ -40,29 +40,66 @@
                     </p>
                 </div>
 
-                <div class="bg-yellow-500 text-white rounded-lg p-6 shadow">
-                    <h3 class="font-semibold text-lg">
-                        Jadwal
-                    </h3>
+                <a href="{{ route('mahasiswa.jadwal') }}">
 
-                    <p class="text-2xl mt-4 font-bold">
-                        Belum Ada
-                    </p>
-                </div>
+                    <div class="bg-yellow-500 text-white rounded-lg p-6 shadow hover:scale-105 transition">
+
+                        <h3 class="font-semibold text-lg">
+                            Jadwal
+                        </h3>
+
+                        <p class="text-2xl mt-4 font-bold">
+                            Lihat Jadwal
+                        </p>
+
+                    </div>
+
+                </a>
 
             </div>
 
         </div>
     </div>
-    <div class="mt-4">
+    <div class="mt-8 flex flex-wrap gap-4">
 
-        <a href="{{ route('mahasiswa.pendaftaran') }}" class="btn btn-primary">
-            Daftar Praktikum
+        <a href="{{ route('mahasiswa.profile') }}"
+            class="px-5 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+
+            Profil Mahasiswa
+
         </a>
 
-        <a href="{{ route('mahasiswa.pembayaran') }}" class="btn btn-success">
+        @if ($profilLengkap)
+            <a href="{{ route('mahasiswa.pendaftaran') }}"
+                class="px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+
+                Daftar Praktikum
+
+            </a>
+        @else
+            <button disabled class="px-5 py-3 bg-gray-400 text-white rounded-lg cursor-not-allowed">
+
+                Lengkapi Profil Dulu
+
+            </button>
+        @endif
+
+        <a href="{{ route('mahasiswa.pembayaran') }}"
+            class="px-5 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">
+
             Pembayaran
+
         </a>
 
     </div>
+
+    @if (!$profilLengkap)
+        <div class="mt-4 p-4 bg-yellow-100 border border-yellow-300 rounded">
+
+            <b>Perhatian!</b><br>
+
+            Lengkapi biodata terlebih dahulu agar dapat melakukan pendaftaran praktikum.
+
+        </div>
+    @endif
 </x-app-layout>

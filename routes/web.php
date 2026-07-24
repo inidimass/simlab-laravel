@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Mahasiswa\JadwalController;
 use App\Http\Controllers\Mahasiswa\PembayaranController;
 use App\Http\Controllers\Mahasiswa\PendaftaranController;
+use App\Http\Controllers\Mahasiswa\ProfileController as MahasiswaProfileController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +46,15 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
     Route::post('/mahasiswa/pembayaran',
         [PembayaranController::class, 'store'])
         ->name('mahasiswa.pembayaran.store');
+
+    Route::get('/mahasiswa/profile', [MahasiswaProfileController::class, 'index'])
+        ->name('mahasiswa.profile');
+
+    Route::put('/mahasiswa/profile', [MahasiswaProfileController::class, 'update'])
+        ->name('mahasiswa.profile.update');
+
+    Route::get('/mahasiswa/jadwal', [JadwalController::class, 'index'])
+        ->name('mahasiswa.jadwal');
 });
 
 /*

@@ -15,8 +15,10 @@ class PembayaranController extends Controller
     {
         $mahasiswa = Mahasiswa::where('user_id', Auth::id())->first();
 
-        $pendaftaran = Pendaftaran::with('detailPendaftarans')
-            ->where('mahasiswa_id', $mahasiswa->id)
+        $pendaftaran = Pendaftaran::with([
+            'detailPendaftarans',
+            'pembayaran',
+        ])->where('mahasiswa_id', $mahasiswa->id)
             ->first();
 
         return view('mahasiswa.pembayaran.index', compact('pendaftaran'));
@@ -38,8 +40,28 @@ class PembayaranController extends Controller
             return back()->with('error', 'Belum melakukan pendaftaran.');
         }
 
-        if (Pembayaran::where('pendaftaran_id', $pendaftaran->id)->exists()) {
-            return back()->with('error', 'Pembayaran sudah diupload.');
+        $pembayaran = Pembayaran::where('pendaftaran_id', $pendaftaran->id)->first();
+
+        if ($pembayaran) {
+
+            if ($pembayaran->status == 'Menunggu' || $pembayaran->status == 'Diterima') {
+                return back()->with('error', 'Pembayaran sudah diupload.');
+            }
+
+            // Kalau status Ditolak, upload ulang
+            $path = $request->file('bukti_pembayaran')->store('pembayaran', 'public');
+
+            $pembayaran->update([
+                'bukti_pembayaran' => $path,
+                'tanggal_bayar' => now(),
+                'status' => 'Menunggu',     
+            ]);
+
+            $pendaftaran->update([
+                'status' => 'Menunggu Verifikasi',
+            ]);
+
+            return back()->with('success', 'Upload ulang berhasil.');
         }
 
         $path = $request->file('bukti_pembayaran')->store('pembayaran', 'public');

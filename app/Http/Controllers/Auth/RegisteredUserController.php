@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Mahasiswa;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -40,12 +41,23 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'mahasiswa',
+        ]);
+
+        Mahasiswa::create([
+            'user_id' => $user->id,
+            'nim' => 'TMP'.str_pad($user->id, 5, '0', STR_PAD_LEFT),
+            'nama' => $request->name,
+            'prodi' => '-',
+            'angkatan' => now()->year,
+            'no_hp' => '-',
+            'alamat' => null,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route('mahasiswa.dashboard');
     }
 }
