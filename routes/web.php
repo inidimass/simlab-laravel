@@ -7,21 +7,46 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('admin')->group(function () {
-    Route::view('/dashboard', 'admin.dashboard');
-    Route::view('/mahasiswa', 'admin.mahasiswa.index');
-    Route::view('/dosen', 'admin.dosen.index');
-    Route::view('/mata-kuliah', 'admin.mata_kuliah.index');
-    Route::view('/praktikum', 'admin.praktikum.index');
-    Route::view('/laboratorium', 'admin.laboratorium.index');
-    Route::view('/komputer', 'admin.komputer.index');
-    Route::view('/kelas-praktikum', 'admin.kelas_praktikum.index');
-    Route::view('/jadwal', 'admin.jadwal.index');
+/*
+|--------------------------------------------------------------------------
+| Dashboard Berdasarkan Role
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+    // Frontend CRUD Admin
+    Route::view('/admin/mahasiswa', 'admin.mahasiswa.index');
+    Route::view('/admin/dosen', 'admin.dosen.index');
+    Route::view('/admin/mata-kuliah', 'admin.mata_kuliah.index');
+    Route::view('/admin/praktikum', 'admin.praktikum.index');
+    Route::view('/admin/laboratorium', 'admin.laboratorium.index');
+    Route::view('/admin/komputer', 'admin.komputer.index');
+    Route::view('/admin/kelas-praktikum', 'admin.kelas_praktikum.index');
+    Route::view('/admin/jadwal', 'admin.jadwal.index');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'role:dosen'])->group(function () {
+    Route::get('/dosen/dashboard', function () {
+        return view('dosen.dashboard');
+    })->name('dosen.dashboard');
+});
+
+Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
+    Route::get('/mahasiswa/dashboard', function () {
+        return view('mahasiswa.dashboard');
+    })->name('mahasiswa.dashboard');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Profile
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
