@@ -54,4 +54,15 @@
 
         </div>
     </div>
+    <div class="mt-4">
+
+        <a href="{{ route('mahasiswa.pendaftaran') }}" class="btn btn-primary">
+            Daftar Praktikum
+        </a>
+
+        <a href="{{ route('mahasiswa.pembayaran') }}" class="btn btn-success">
+            Pembayaran
+        </a>
+
+    </div>
 </x-app-layout>

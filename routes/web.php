@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Mahasiswa\PembayaranController;
 use App\Http\Controllers\Mahasiswa\PendaftaranController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,14 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
 
     Route::post('/mahasiswa/pendaftaran', [PendaftaranController::class, 'store'])
         ->name('mahasiswa.pendaftaran.store');
+
+    Route::get('/mahasiswa/pembayaran',
+        [PembayaranController::class, 'index'])
+        ->name('mahasiswa.pembayaran');
+
+    Route::post('/mahasiswa/pembayaran',
+        [PembayaranController::class, 'store'])
+        ->name('mahasiswa.pembayaran.store');
 });
 
 /*
