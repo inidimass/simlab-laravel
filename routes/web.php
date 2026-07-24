@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Mahasiswa\PendaftaranController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,15 +16,13 @@ Route::get('/', function () {
 */
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [DashboardController::class, 'admin'])
+        ->name('admin.dashboard');
 });
 
 Route::middleware(['auth', 'role:dosen'])->group(function () {
-    Route::get('/dosen/dashboard', function () {
-        return view('dosen.dashboard');
-    })->name('dosen.dashboard');
+    Route::get('/dosen/dashboard', [DashboardController::class, 'dosen'])
+        ->name('dosen.dashboard');
 });
 
 Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
